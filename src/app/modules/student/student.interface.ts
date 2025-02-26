@@ -1,36 +1,60 @@
-import { Schema, model, connect } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
+export type TUserName = {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+};
 
-// interface : type o use kora jai
+export type TGuardian = {
+  fatherName: string;
+  fatherOccupation: string;
+  fatherContactNo: string;
+  motherName: string;
+  motherOccupation: string;
+  motherContactNo: string;
+};
 
-// guarduian type:
-export type Guardian = {
-    fatherName : string ;
-    fatherOccupation : string ;
-    motherNamer : string ;
-    motherOccupation : string ;
-    guardianNumber : string 
+export type TLocalGuardian = {
+  name: string;
+  occupation: string;
+  contactNo: string;
+  address: string;
+};
+
+export type TStudent = {
+  id: string;
+  user: Types.ObjectId;
+  password: string;
+  name: TUserName;
+  gender: 'male' | 'female' | 'other';
+  dateOfBirth?: string;
+  email: string;
+  contactNo: string;
+  emergencyContactNo: string;
+  bloogGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  presentAddress: string;
+  permanentAddress: string;
+  guardian: TGuardian;
+  localGuardian: TLocalGuardian;
+  profileImg?: string;
+  isDeleted: boolean;
+};
+
+//for creating static
+
+export interface StudentModel extends Model<TStudent> {
+  isUserExists(id: string): Promise<TStudent | null>;
 }
 
-//  Main Interface : 
-export type Student = {
-      
-    id : string ;
-    name : {
-       firstName : string ;
-       lastName : string ;
-    },
+// for creating instance
 
-    email : string ;
-    gender : 'Male' | 'Female' ;
-    age : number ;
-    presentAddress : string ;
-    permanentAddress : string;
-    emergencyContactNo : string ;
-    bloodGroup : string ;
-    profileImg? : string ;
+// export interface StudentMethods {
+//   isUserExists(id: string): Promise<TStudent | null>;
+// }
 
-    guardian : Guardian ;
-    isActive : 'Active' | 'Blocked'
-
-}
+// export type StudentModel = Model<
+//   TStudent,
+//   Record<string, never>,
+//   StudentMethods
+// >;

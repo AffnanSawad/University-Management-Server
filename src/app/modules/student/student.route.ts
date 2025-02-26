@@ -1,15 +1,12 @@
-import express from 'express'
-import { studentControllers } from './student.controller';
+import express from 'express';
+import { StudentControllers } from './student.controller';
 
-//  Calling router
-const router = express.Router() ;
+const router = express.Router();
 
-//  CRUD Operations;
-// will call controller func:
-router.post('/create-student', studentControllers.CreateStudent); 
+router.get('/:studentId', StudentControllers.getSingleStudent);
 
-// get student data
-router.get('/', studentControllers.getAllStudents);
+router.delete('/:studentId', StudentControllers.deleteStudent);
 
-// export
-export const StudentRoutes = router ;
+router.get('/', StudentControllers.getAllStudents);
+
+export const StudentRoutes = router;
